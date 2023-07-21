@@ -1,0 +1,40 @@
+create table usuario (
+	usuarioID int primary key
+	username varchar(20),
+	senha varchar(20)
+)
+create sequence usuarioID;
+
+create table musica (
+	musicaID int primary key,
+	nome varchar(20),
+	arquivo varchar(50),
+	usuarioID int references usuario (usuarioID) ON DELETE CASCADE
+);
+create sequence musicaID;
+
+create table playlist (
+	playlistID int primary key,
+	nome varchar(20),
+	usuarioID int references usuario (usuarioID) ON DELETE CASCADE
+);
+create sequence playlistID;
+
+create table playlist_musica (
+	playlistID int references playlist (playlistID) ON DELETE CASCADE,
+	musicaID int references musica (musicaID) ON DELETE CASCADE,
+	CONSTRAINT playlis_musica_pkey PRIMARY KEY (musicaID, playlistID)
+);
+
+create table artista (
+	artistaID int primary key,
+	nome varchar(20),
+	usuarioID int references usuario (usuarioID) ON DELETE CASCADE
+);
+create sequence artistaID;
+
+create table artista_musica (
+	artistaID int references artista (artistaID) ON DELETE CASCADE,
+	musicaID int references musica (musicaID) ON DELETE CASCADE,
+	CONSTRAINT artista_musica_pkey PRIMARY KEY (musicaID, artistaID)
+);
